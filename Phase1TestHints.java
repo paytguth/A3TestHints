@@ -125,8 +125,8 @@ public class Phase1Test{
         mh.add(10, 5);
         mh.add(11, 5);
         mh.swap(0, 1);
-        assertEquals("\nWhat functions lets you get values from your arraylist at a given index?\nWhat function lets you change values in your arraylist at a given index?\n", new Integer(11), mh.c.get(0).value);
-        assertEquals("\nOne of the Entries swapped correctly but the other didn't.\nTake another look and make sure you're not getting your indices and values mixed up\n", new Integer(10), mh.c.get(1).value);
+        assertEquals("What functions lets you get values from your arraylist at a given index?\nWhat function lets you change values in your arraylist at a given index?\n", new Integer(11), mh.c.get(0).value);
+        assertEquals("One of the Entries swapped correctly but the other didn't.\nTake another look and make sure you're not getting your indices and values mixed up\n", new Integer(10), mh.c.get(1).value);
         check("\nThe values were swapped correctly but the heap invariants were false.\nCheck and see if you swapped the priorities correctly", new Integer[]{10, 11}, new Integer[]{5, 5}, mh);
     }
 
@@ -144,9 +144,9 @@ public class Phase1Test{
         mh1.add(5, 5);
         check("\nIf an added node has a smaller priority than it's parent, it should be recursively swapped upward until it meets a parent with a smaller priority", new Integer[]{3, 5, 8, 6}, new Integer[]{3, 5, 8, 6}, mh1);
         mh1.add(4, 4);
-        check(new Integer[]{3, 4, 8, 6, 5}, new Integer[]{3, 4, 8, 6, 5}, mh1);
+        check("\nIf an added node has a smaller priority than it's parent, it should be recursively swapped upward until it meets a parent with a smaller priority", new Integer[]{3, 4, 8, 6, 5}, new Integer[]{3, 4, 8, 6, 5}, mh1);
         mh1.add(1, 1);
-        check(new Integer[]{1, 4, 3, 6, 5, 8}, new Integer[]{1, 4, 3, 6, 5, 8}, mh1);
+        check("\nSince the entry added has the smallest priority, it should be swapped up until the root. Make sure your bubbleup checks to see if there are no more nodes above the added node",new Integer[]{1, 4, 3, 6, 5, 8}, new Integer[]{1, 4, 3, 6, 5, 8}, mh1);
     }
 
     @Test
@@ -154,21 +154,21 @@ public class Phase1Test{
     public void test17Add_BubbleUpDuplicatePriorities() {
         Heap<Integer,Double> mh= new Heap<Integer,Double>();
         mh.add(4, 4.0);
-        check(new Integer[]{4}, new Double[]{4.0}, mh);
+        check("\nThis test will see how your bubbleup function handles entries with duplicate priorties. \nMake sure that your bubbleUp function doesn't swap upward if the parent node has the same priority", new Integer[]{4}, new Double[]{4.0}, mh);
         mh.add(2, 4.0);
-        check(new Integer[]{4, 2}, new Double[]{4.0, 4.0}, mh);
+        check("\nThis test will see how your bubbleup function handles entries with duplicate priorties. \nMake sure that your bubbleUp function doesn't swap upward if the parent node has the same priority", new Integer[]{4, 2}, new Double[]{4.0, 4.0}, mh);
         mh.add(1, 4.0);
-        check(new Integer[]{4, 2, 1}, new Double[]{4.0, 4.0, 4.0}, mh);
+        check("\nThis test will see how your bubbleup function handles entries with duplicate priorties. \nMake sure that your bubbleUp function doesn't swap upward if the parent node has the same priority", new Integer[]{4, 2, 1}, new Double[]{4.0, 4.0, 4.0}, mh);
         mh.add(0, 4.0);
-        check(new Integer[]{4, 2, 1, 0}, new Double[]{4.0, 4.0, 4.0, 4.0}, mh);
+        check("\nThis test will see how your bubbleup function handles entries with duplicate priorties. \nMake sure that your bubbleUp function doesn't swap upward if the parent node has the same priority", new Integer[]{4, 2, 1, 0}, new Double[]{4.0, 4.0, 4.0, 4.0}, mh);
     }
 
     @Test
     /** Test peek. */
     public void test20Peek() {
         Heap<Integer,Integer> mh= makeHeap(new Integer[]{1, 3});
-        assertEquals(new Integer(1), mh.peek());
-        check(new Integer[]{1, 3}, new Integer[]{1, 3}, mh);
+        assertEquals("Your peek function should return the value with the lowest priority which will always be the root of the heap", new Integer(1), mh.peek());
+        check("\nYou returned the correct value but modified the heap in some way. Remember that peek does not remove any nodes or modify the heap in any way", new Integer[]{1, 3}, new Integer[]{1, 3}, mh);
 
         Heap<Integer,Double> mh1= new Heap<Integer,Double>();
         try {
@@ -185,41 +185,41 @@ public class Phase1Test{
     public void test30Poll_BubbleDown_NoDups() {
         Heap<Integer,Integer> mh= makeHeap(new Integer[]{5});
         Integer res= mh.poll();
-        assertEquals(new Integer(5), res);
-        check(new Integer[]{}, new Integer[]{}, mh);
+        assertEquals("You did not return the correct value. Poll is similar peek but different because poll will REMOVE the entry with the lowest priority", new Integer(5), res);
+        check("\nYou returned the correct value but the entry was not removed from the heap", new Integer[]{}, new Integer[]{}, mh);
 
         Heap<Integer,Integer> mh1= makeHeap(new Integer[]{5, 6});
         Integer res1= mh1.poll();
-        assertEquals(new Integer(5), res1);
-        check(new Integer[]{6}, new Integer[]{6}, mh1);
+        assertEquals("Your poll function did not return the correct value. Remember the value with the lowest priority is always the root.", new Integer(5), res1);
+        check("\nYou did not swap the values correctly. \nRemember that poll will always swap the first entry with the last entry at first. You do not need to swap anything if the heap size is less than 2 after a .poll", new Integer[]{6}, new Integer[]{6}, mh1);
 
         // this requires comparing lchild and rchild and using lchild
         Heap<Integer,Integer> mh2= makeHeap(new Integer[] {4, 5, 6, 7, 8, 9});
         Integer res2= mh2.poll();
-        assertEquals(new Integer(4), res2);
-        check(new Integer[]{5, 7, 6, 9, 8}, new Integer[]{5, 7, 6, 9, 8}, mh2);
+        assertEquals("You did not return the lowest priority value. Swap the root and the last entry and then use .pop() to return the the lowest priority value", new Integer(4), res2);
+        check("\nThe value that was supposed to be swapped down was not in the right place. Remember that bubbledown should swap the entry with it's smallest child. Use pCompare to compare a nodes children and see which has a lower priority", new Integer[]{5, 7, 6, 9, 8}, new Integer[]{5, 7, 6, 9, 8}, mh2);
 
         // this requires comparing lchild and rchild and using rchild
         Heap<Integer,Integer> mh3= makeHeap(new Integer[] {4, 6, 5, 7, 8, 9});
         Integer res3= mh3.poll();
-        assertEquals(new Integer(4), res3);
-        check(new Integer[]{5, 6, 9, 7, 8}, new Integer[]{5, 6, 9, 7, 8}, mh3);
+        assertEquals("You did not return the lowest priority value. Swap the root and the last entry and then use .pop() to return the the lowest priority value", new Integer(4), res3);
+        check("\nThe value that was supposed to be swapped down was not in the right place. Remember that bubbledown should swap the entry with it's smallest child. Use pCompare to compare a nodes children and see which has a lower priority", new Integer[]{5, 6, 9, 7, 8}, new Integer[]{5, 6, 9, 7, 8}, mh3);
 
         // this requires bubbling down when only one child
         Heap<Integer,Integer> mh4= makeHeap(new Integer[] {4, 5, 6, 7, 8});
         Integer res4= mh4.poll();
-        assertEquals(new Integer(4), res4);
-        check(new Integer[]{5,7, 6, 8}, new Integer[]{5, 7, 6, 8}, mh4);
+        assertEquals("You did not return the value with the lowest priority. Swap the root and the last entry and then use .pop() to return the the lowest priority value", new Integer(4), res4);
+        check("\nThis test requires you to bubbleDown on a node with one child. Make sure you don't swap the parent with it's one child if there's already a free space", new Integer[]{5, 7, 6, 8}, new Integer[]{5, 7, 6, 8}, mh4);
 
         Heap<Integer,Integer> mh5= makeHeap(new Integer[] {2, 4, 3, 6, 7, 8, 9});
         Integer res5= mh5.poll();
-        assertEquals(new Integer(2), res5);
-        check(new Integer[]{3, 4, 8, 6, 7, 9}, new Integer[]{3, 4, 8, 6, 7, 9}, mh5);
+        assertEquals("You did not return the value with the lowest priority. Swap the root and the last entry and then use .pop() to return the the lowest priority value", new Integer(2), res5);
+        check("\nThe value that was supposed to be swapped down was not in the right place. Remember that bubbledown should swap the entry with it's smallest child. Use pCompare to compare a nodes children and see which has a lower priority", new Integer[]{3, 4, 8, 6, 7, 9}, new Integer[]{3, 4, 8, 6, 7, 9}, mh5);
 
         Heap<Integer,Integer> mh6= makeHeap(new Integer[] {2, 4, 3, 6, 7, 9, 8});
         Integer res6= mh6.poll();
-        assertEquals(new Integer(2), res6);
-        check(new Integer[]{3, 4, 8, 6, 7, 9}, new Integer[]{3, 4, 8, 6, 7, 9}, mh6);
+        assertEquals("You did not return the value with the lowest priority. Swap the root and the last entry and then use .pop() to return the the lowest priority value", (new Integer(2), res6);
+        check("\nThe value that was supposed to be swapped down was not in the right place. Remember that bubbledown should swap the entry with it's smallest child. Use pCompare to compare a nodes children and see which has a lower priority", new Integer[]{3, 4, 8, 6, 7, 9}, new Integer[]{3, 4, 8, 6, 7, 9}, mh6);
 
         Heap<Integer,Integer> mh7= new Heap<Integer,Integer>();
         try {
@@ -238,21 +238,21 @@ public class Phase1Test{
         // First two check bubble up
         Heap<Integer,Double> mh1= makeHeap(new Integer[] {6}, new double[] {4});
         mh1.add(5, 4.0);
-        check(new Integer[]{6, 5}, new Double[]{4.0, 4.0}, mh1);
+        check("\nYour bubbleup function doesn't need to do anything if the added entry has the same priority as it's parent", new Integer[]{6, 5}, new Double[]{4.0, 4.0}, mh1);
 
         Heap<Integer,Double> mh2= makeHeap(new Integer[] {7, 6}, new double[] {4, 4});
         mh2.add(3, 4.0);
-        check(new Integer[]{7, 6, 3}, new Double[]{4.0, 4.0, 4.0}, mh2);
+        check("\nYour bubbleup function doesn't need to do anything if the added entry has the same priority as it's parent", new Integer[]{7, 6, 3}, new Double[]{4.0, 4.0, 4.0}, mh2);
 
         // Check bubble up
         Heap<Integer,Double> mh3= makeHeap(new Integer[] {5, 6, 7}, new double[] {4, 4, 4});
         mh3.poll();
-        check(new Integer[]{7, 6}, new Double[]{4.0, 4.0}, mh3);
+        check("\nYour bubbleDown function doesn't need to do anything if all of the entries in the heap have the same priority", new Integer[]{7, 6}, new Double[]{4.0, 4.0}, mh3);
 
-     // Check bubble up
+        // Check bubble up
         Heap<Integer,Double> mh4= makeHeap(new Integer[] {5, 7, 6, 8}, new double[] {4, 4, 4, 4});
         mh4.poll();
-        check(new Integer[]{8, 7, 6}, new Double[]{4.0, 4.0, 4.0}, mh4);
+        check("\nYour bubbleDown function doesn't need to do anything if all of the entries in the heap have the same priority", new Integer[]{8, 7, 6}, new Double[]{4.0, 4.0, 4.0}, mh4);
 
     }
 
@@ -265,14 +265,14 @@ public class Phase1Test{
         Heap<String,Integer> mh= new Heap<String,Integer>();
         check(new String[]{}, new Integer[]{}, mh);
         mh.add("abc", 5);
-        check(new String[]{"abc"}, new Integer[]{5}, mh);
+        check("\nThis test added an Entry<String,Integer> to your heap and it didn't work. Check to make sure your add function uses generics properly", new String[]{"abc"}, new Integer[]{5}, mh);
         mh.add("beep", 3);
-        check(new String[]{"beep", "abc"}, new Integer[]{3, 5}, mh);
+        check("\nThis test is adding entries with strings as values. Make sure your add function uses generics properly and only uses the priority (not the value!) in your comparison operations.", new String[]{"beep", "abc"}, new Integer[]{3, 5}, mh);
         mh.add("", 2);
-        check(new String[]{"", "abc", "beep"}, new Integer[]{2, 5, 3}, mh);
+        check("\nYour bubbleUp function did not properly swap the added entry to it's correct place. Bubbleup should only use the priority in comparison operations", new String[]{"", "abc", "beep"}, new Integer[]{2, 5, 3}, mh);
         String p= mh.poll();
-        assertEquals("", p);
-        check(new String[]{"beep", "abc"}, new Integer[]{3, 5}, mh);
+        assertEquals("Your .poll function did not properly return the value of an entry when the value is a blank string", "", p);
+        check("\nYour .poll function did not swap the heap around correctly. Check bubbleDown to make sure you are only comparing entries using their priority", new String[]{"beep", "abc"}, new Integer[]{3, 5}, mh);
     }
 
     @Test
