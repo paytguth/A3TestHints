@@ -13,11 +13,8 @@ import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class Phase1Test{
-
-
-
     /*
-    * Allows for customized error messages or hints to be thrown alongside the exception from check()
+    * Allows for customized messages or hints to be thrown alongside the AssertionError from check().
     */
     public <V,P extends Comparable<P>> void check(String message, V[] b, P[] p, Heap<V,P> mh) throws AssertionError {
         try {
@@ -44,18 +41,18 @@ public class Phase1Test{
         //System.out.println(mh.c);
         // invariant 1
         for (int i = 0; i < mh.size(); i++)
-        	assertTrue("Heap invariant not satisfied: All levels except the last are full, nodes in last level are as far left as possible", mh.c.get(i) != null);
+        	assertTrue("Heap invariant not satisfied: All levels except the last should be full, nodes in last level should be as far left as possible", mh.c.get(i) != null);
 
         // invariant 2
         for (int i = mh.size(); i < mh.c.size(); i++)
-        	assertTrue("Heap invariant not satisfied: Nodes in last level are as far left as possible", mh.c.get(i) == null);
+        	assertTrue("Heap invariant not satisfied: Nodes in last level should as far left as possible", mh.c.get(i) == null);
 
         // invariant 3
         for (int i = 1; i < mh.size(); i++)
-        	assertTrue("Heap invariant not satisfied: Each element has a greater priority than it's parent", mh.c.get(i).priority.compareTo(mh.c.get((i-1)/2).priority) >= 0);
+        	assertTrue("Heap invariant not satisfied: Each element should have a greater priority than it's parent", mh.c.get(i).priority.compareTo(mh.c.get((i-1)/2).priority) >= 0);
 
         // check equality with (b,p)
-        assertEquals("Heap invariant not satisfied: The number of values in the heap is equal to the size value of the heap", b.length, mh.size());
+        assertEquals("Heap invariant not satisfied: The number of values in the heap should be equal to the size value of the heap", b.length, mh.size());
         //assertEquals(b.length, mh.map.size());
 
         // check the entries of c match b and p
