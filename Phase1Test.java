@@ -269,7 +269,7 @@ public class Phase1Test{
     /** Test a few calls with Strings */
     public void test70Strings() {
         Heap<String,Integer> mh= new Heap<String,Integer>();
-        check(new String[]{}, new Integer[]{}, mh);
+        check("This check is creating an empty heap with String as the data type for value (Heap<String,Integer>)", new String[]{}, new Integer[]{}, mh);
         String stringsInHeapHint = "\nThis test added an Entry<String,Integer> to the heap and but a heap invariant failed.";
         mh.add("abc", 5);
         check(stringsInHeapHint, new String[]{"abc"}, new Integer[]{5}, mh);
