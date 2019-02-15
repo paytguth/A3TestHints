@@ -45,7 +45,7 @@ public class Phase1Test{
 
         // invariant 2
         for (int i = mh.size(); i < mh.c.size(); i++)
-        	assertTrue("Heap invariant not satisfied: Nodes in last level should as far left as possible", mh.c.get(i) == null);
+        	assertTrue("Heap invariant not satisfied: Nodes in last level should be as far left as possible", mh.c.get(i) == null);
 
         // invariant 3
         for (int i = 1; i < mh.size(); i++)
